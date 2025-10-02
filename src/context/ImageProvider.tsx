@@ -5,6 +5,7 @@ import {
 	type PropsWithChildren,
 } from 'react';
 import { ImageContext } from './ImageContext';
+import { validateImage } from '../utils/validateImage';
 
 const ImageProvider = ({ children }: PropsWithChildren) => {
 	const [url, setUrl] = useState('');
@@ -16,26 +17,12 @@ const ImageProvider = ({ children }: PropsWithChildren) => {
 	const deferredUrl = useDeferredValue(url);
 
 	useEffect(() => {
-		if (typeof deferredUrl !== 'string' || deferredUrl.trim() === '') {
-			setIsValidImage(false);
-			return;
-		}
 		const controller = new AbortController();
-		const fetchImage = async () => {
-			try {
-				const response = await fetch(deferredUrl, {
-					method: 'HEAD',
-					signal: controller.signal,
-				});
-				const contentType = response.headers.get('Content-Type');
-				setIsValidImage(
-					response.ok && !!contentType && contentType.startsWith('image/')
-				);
-			} catch {
-				setIsValidImage(false);
-			}
+
+		const validate = async () => {
+			setIsValidImage(await validateImage(deferredUrl, controller));
 		};
-		fetchImage();
+		validate();
 
 		return () => {
 			setIsValidImage(false);
