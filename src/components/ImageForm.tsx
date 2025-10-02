@@ -1,26 +1,19 @@
+import { useImageContext } from '../context/ImageContext';
 import InputGroupWrapper from './InputGroupWrapper';
 import Label from './Label';
 
-type ImageFormProps = {
-	url: string;
-	setUrl: (url: string) => void;
-	width: number;
-	setWidth: (width: number) => void;
-	borderWidth: number;
-	setBorderWidth: (borderWidth: number) => void;
-	frameColor: string;
-	setFrameColor: (frameColor: string) => void;
-};
-const ImageForm = ({
-	url,
-	setUrl,
-	width,
-	setWidth,
-	borderWidth,
-	setBorderWidth,
-	frameColor,
-	setFrameColor,
-}: ImageFormProps) => {
+const ImageForm = () => {
+	const {
+		url,
+		setUrl,
+		width,
+		setWidth,
+		borderWidth,
+		setBorderWidth,
+		frameColor,
+		setFrameColor,
+	} = useImageContext();
+
 	const handleNumberInput = (
 		e: React.ChangeEvent<HTMLInputElement>,
 		setter: (value: number) => void
