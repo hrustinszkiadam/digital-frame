@@ -1,6 +1,6 @@
 export const validateImage = async (
 	url: string,
-	controller: AbortController
+	signal: AbortSignal
 ): Promise<boolean> => {
 	if (typeof url !== 'string' || url.trim() === '') {
 		return false;
@@ -9,7 +9,7 @@ export const validateImage = async (
 	try {
 		const response = await fetch(url, {
 			method: 'HEAD',
-			signal: controller.signal,
+			signal,
 		});
 		const contentType = response.headers.get('Content-Type');
 		return response.ok && !!contentType && contentType.startsWith('image/');

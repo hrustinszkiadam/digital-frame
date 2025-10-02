@@ -1,12 +1,20 @@
-import type { Theme } from '../types';
 import sun from '../assets/light.svg';
 import moon from '../assets/dark.svg';
+import useLocalStorage from '../hooks/useLocalStorage';
+import type { Theme } from '../types';
+import { useCallback, useEffect } from 'react';
 
-type ThemeTogglerProps = {
-	theme: Theme;
-	toggleTheme: () => void;
-};
-const ThemeToggler = ({ theme, toggleTheme }: ThemeTogglerProps) => {
+const ThemeToggler = () => {
+	const [theme, setTheme] = useLocalStorage<Theme>('theme', 'dark');
+
+	const toggleTheme = useCallback(() => {
+		setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
+	}, [setTheme]);
+
+	useEffect(() => {
+		document.documentElement.setAttribute('data-bs-theme', theme);
+	}, [theme]);
+
 	return (
 		<div className='position-fixed top-0 end-0 m-3'>
 			<button

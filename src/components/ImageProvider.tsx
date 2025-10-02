@@ -4,7 +4,7 @@ import {
 	useState,
 	type PropsWithChildren,
 } from 'react';
-import { ImageContext } from './ImageContext';
+import { ImageContext } from '../context/ImageContext';
 import { validateImage } from '../utils/validateImage';
 
 const ImageProvider = ({ children }: PropsWithChildren) => {
@@ -20,7 +20,7 @@ const ImageProvider = ({ children }: PropsWithChildren) => {
 		const controller = new AbortController();
 
 		const validate = async () => {
-			setIsValidImage(await validateImage(deferredUrl, controller));
+			setIsValidImage(await validateImage(deferredUrl, controller.signal));
 		};
 		validate();
 
