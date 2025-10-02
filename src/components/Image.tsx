@@ -1,13 +1,11 @@
-type ImageProps = {
-	url: string;
-	width: number;
-	borderWidth: number;
-	frameColor: string;
-};
-const Image = ({ url, width, borderWidth, frameColor }: ImageProps) => {
+import { useImageContext } from '../context/ImageContext';
+
+const Image = () => {
+	const { deferredUrl, width, borderWidth, frameColor } = useImageContext();
+
 	return (
 		<img
-			src={url}
+			src={deferredUrl}
 			alt='Custom image'
 			style={{
 				width,

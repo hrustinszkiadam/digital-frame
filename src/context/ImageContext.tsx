@@ -3,6 +3,7 @@ import { createContext, useContext } from 'react';
 type ImageContextType = {
 	url: string;
 	setUrl: (url: string) => void;
+	deferredUrl: string;
 	width: number;
 	setWidth: (width: number) => void;
 	borderWidth: number;

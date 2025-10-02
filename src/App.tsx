@@ -1,4 +1,4 @@
-import { useDeferredValue, useEffect } from 'react';
+import { useEffect } from 'react';
 import Image from './components/Image';
 import ImageForm from './components/ImageForm';
 import type { Theme } from './types';
@@ -8,39 +8,8 @@ import './App.css';
 import { useImageContext } from './context/ImageContext';
 
 const App = () => {
-	const { url, width, borderWidth, frameColor, isValidImage, setIsValidImage } =
-		useImageContext();
+	const { isValidImage } = useImageContext();
 	const [theme, setTheme] = useLocalStorage<Theme>('theme', 'dark');
-
-	const deferredUrl = useDeferredValue(url);
-
-	useEffect(() => {
-		if (typeof deferredUrl !== 'string' || deferredUrl.trim() === '') {
-			setIsValidImage(false);
-			return;
-		}
-		const controller = new AbortController();
-		const fetchImage = async () => {
-			try {
-				const response = await fetch(deferredUrl, {
-					method: 'HEAD',
-					signal: controller.signal,
-				});
-				const contentType = response.headers.get('Content-Type');
-				setIsValidImage(
-					response.ok && !!contentType && contentType.startsWith('image/')
-				);
-			} catch {
-				setIsValidImage(false);
-			}
-		};
-		fetchImage();
-
-		return () => {
-			setIsValidImage(false);
-			controller.abort();
-		};
-	}, [deferredUrl, setIsValidImage]);
 
 	useEffect(() => {
 		document.documentElement.setAttribute('data-bs-theme', theme);
@@ -61,14 +30,7 @@ const App = () => {
 				<ImageForm />
 			</div>
 			<div className='row h-75 w-100 mx-auto d-flex justify-content-center align-items-center'>
-				{isValidImage && (
-					<Image
-						url={deferredUrl}
-						width={width}
-						borderWidth={borderWidth}
-						frameColor={frameColor}
-					/>
-				)}
+				{isValidImage && <Image />}
 			</div>
 		</div>
 	);
