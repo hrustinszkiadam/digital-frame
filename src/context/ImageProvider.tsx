@@ -9,8 +9,8 @@ import { ImageContext } from './ImageContext';
 const ImageProvider = ({ children }: PropsWithChildren) => {
 	const [url, setUrl] = useState('');
 	const [width, setWidth] = useState(500);
-	const [borderWidth, setBorderWidth] = useState(2);
-	const [frameColor, setFrameColor] = useState('#000000');
+	const [borderWidth, setBorderWidth] = useState(15);
+	const [frameColor, setFrameColor] = useState('#800080');
 	const [isValidImage, setIsValidImage] = useState(false);
 
 	const deferredUrl = useDeferredValue(url);
