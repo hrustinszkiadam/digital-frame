@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useDeferredValue, useEffect, useState } from 'react';
 import Image from './components/Image';
 import ImageForm from './components/ImageForm';
 import type { Theme } from './types';
@@ -14,11 +14,20 @@ const App = () => {
 	const [isValidImage, setIsValidImage] = useState(false);
 	const [theme, setTheme] = useLocalStorage<Theme>('theme', 'dark');
 
+	const deferredUrl = useDeferredValue(url);
+
 	useEffect(() => {
-		if (!url) return;
+		if (typeof deferredUrl !== 'string' || deferredUrl.trim() === '') {
+			setIsValidImage(false);
+			return;
+		}
+		const controller = new AbortController();
 		const fetchImage = async () => {
 			try {
-				const response = await fetch(url, { method: 'HEAD' });
+				const response = await fetch(deferredUrl, {
+					method: 'HEAD',
+					signal: controller.signal,
+				});
 				const contentType = response.headers.get('Content-Type');
 				setIsValidImage(
 					response.ok && !!contentType && contentType.startsWith('image/')
@@ -28,7 +37,10 @@ const App = () => {
 			}
 		};
 		fetchImage();
-	}, [url]);
+		return () => {
+			controller.abort();
+		};
+	}, [deferredUrl]);
 
 	useEffect(() => {
 		document.documentElement.setAttribute('data-bs-theme', theme);
