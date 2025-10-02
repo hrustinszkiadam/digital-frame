@@ -72,7 +72,7 @@ const App = () => {
 			<div className='row h-75 w-100 mx-auto d-flex justify-content-center align-items-center'>
 				{isValidImage && (
 					<Image
-						url={url}
+						url={deferredUrl}
 						width={width}
 						borderWidth={borderWidth}
 						frameColor={frameColor}
