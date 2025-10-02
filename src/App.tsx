@@ -1,14 +1,13 @@
-import { useEffect } from 'react';
 import Image from './components/Image';
-import ImageForm from './components/ImageForm';
-import type { Theme } from './types';
+import ImageForm from './components/ImageForm/Index';
 import ThemeToggler from './components/ThemeToggler';
 import useLocalStorage from './hooks/useLocalStorage';
+import ImageProvider from './context/ImageProvider';
+import { useEffect } from 'react';
+import type { Theme } from './types';
 import './App.css';
-import { useImageContext } from './context/ImageContext';
 
 const App = () => {
-	const { isValidImage } = useImageContext();
 	const [theme, setTheme] = useLocalStorage<Theme>('theme', 'dark');
 
 	useEffect(() => {
@@ -23,15 +22,17 @@ const App = () => {
 					setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'))
 				}
 			/>
-			<div
-				className='row h-25 mx-auto'
-				id='form-container'
-			>
-				<ImageForm />
-			</div>
-			<div className='row h-75 w-100 mx-auto d-flex justify-content-center align-items-center'>
-				{isValidImage && <Image />}
-			</div>
+			<ImageProvider>
+				<div
+					className='row h-25 mx-auto'
+					id='form-container'
+				>
+					<ImageForm />
+				</div>
+				<div className='row h-75 w-100 mx-auto d-flex justify-content-center align-items-center'>
+					<Image />
+				</div>
+			</ImageProvider>
 		</div>
 	);
 };

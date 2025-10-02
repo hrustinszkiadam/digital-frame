@@ -1,8 +1,10 @@
 import { useImageContext } from '../context/ImageContext';
 
 const Image = () => {
-	const { deferredUrl, width, borderWidth, frameColor } = useImageContext();
+	const { deferredUrl, width, borderWidth, frameColor, isValidImage } =
+		useImageContext();
 
+	if (!isValidImage) return null;
 	return (
 		<img
 			src={deferredUrl}
