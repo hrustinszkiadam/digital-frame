@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useImageContext } from '../../context/ImageContext';
 import { handleNumberInput } from '../../utils/handleNumberInput';
 import InputGroupWrapper from './InputGroupWrapper';
@@ -5,6 +6,13 @@ import Label from './Label';
 
 const BorderWidthInput = () => {
 	const { borderWidth, setBorderWidth } = useImageContext();
+
+	const onChange = useCallback(
+		(e: React.ChangeEvent<HTMLInputElement>) => {
+			handleNumberInput(e, setBorderWidth);
+		},
+		[setBorderWidth]
+	);
 	return (
 		<InputGroupWrapper>
 			<Label
@@ -16,7 +24,7 @@ const BorderWidthInput = () => {
 				className='form-control'
 				id='borderWidthInput'
 				value={borderWidth}
-				onChange={(e) => handleNumberInput(e, setBorderWidth)}
+				onChange={onChange}
 			/>
 		</InputGroupWrapper>
 	);

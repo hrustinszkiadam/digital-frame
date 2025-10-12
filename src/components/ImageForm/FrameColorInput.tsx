@@ -1,9 +1,17 @@
+import { useCallback } from 'react';
 import { useImageContext } from '../../context/ImageContext';
 import InputGroupWrapper from './InputGroupWrapper';
 import Label from './Label';
 
 const FrameColorInput = () => {
 	const { frameColor, setFrameColor } = useImageContext();
+
+	const onChange = useCallback(
+		(e: React.ChangeEvent<HTMLInputElement>) => {
+			setFrameColor(e.target.value);
+		},
+		[setFrameColor]
+	);
 	return (
 		<InputGroupWrapper>
 			<Label
@@ -15,7 +23,7 @@ const FrameColorInput = () => {
 				className='form-control'
 				id='frameColorInput'
 				value={frameColor}
-				onChange={(e) => setFrameColor(e.target.value)}
+				onChange={onChange}
 			/>
 		</InputGroupWrapper>
 	);
