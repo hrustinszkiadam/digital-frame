@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 type LabelProps = {
 	id: string;
 	text: string;
@@ -13,4 +15,4 @@ const Label = ({ id, text }: LabelProps) => {
 	);
 };
 
-export default Label;
+export default memo(Label);

@@ -1,4 +1,4 @@
-import type { PropsWithChildren } from 'react';
+import { memo, type PropsWithChildren } from 'react';
 
 const InputGroupWrapper = ({ children }: PropsWithChildren) => {
 	return (
@@ -8,4 +8,4 @@ const InputGroupWrapper = ({ children }: PropsWithChildren) => {
 	);
 };
 
-export default InputGroupWrapper;
+export default memo(InputGroupWrapper);
