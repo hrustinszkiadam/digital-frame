@@ -1,6 +1,6 @@
 import {
 	useDeferredValue,
-	useEffect,
+	useLayoutEffect,
 	useState,
 	type PropsWithChildren,
 } from 'react';
@@ -16,16 +16,16 @@ const ImageProvider = ({ children }: PropsWithChildren) => {
 
 	const deferredUrl = useDeferredValue(url);
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		const controller = new AbortController();
 
 		const validate = async () => {
 			setIsValidImage(await validateImage(deferredUrl, controller.signal));
 		};
+		setIsValidImage(false);
 		validate();
 
 		return () => {
-			setIsValidImage(false);
 			controller.abort();
 		};
 	}, [deferredUrl]);

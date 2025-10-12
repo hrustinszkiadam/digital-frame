@@ -10,9 +10,17 @@ export const validateImage = async (
 		const response = await fetch(url, {
 			method: 'HEAD',
 			signal,
+			headers: {
+				'Content-Type': 'image/*',
+			},
 		});
 		const contentType = response.headers.get('Content-Type');
-		return response.ok && !!contentType && contentType.startsWith('image/');
+		const res =
+			response.ok && !!contentType && contentType.startsWith('image/');
+		if (res) {
+			console.clear();
+		}
+		return res;
 	} catch {
 		return false;
 	}
